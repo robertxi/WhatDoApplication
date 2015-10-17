@@ -1,0 +1,103 @@
+<div id="wrapper">
+    <div ng-controller="toDoListCtrl">
+        <div data-ng-init="init()"></div>
+        <!--<div>{{list}}</div>-->
+        <div id="nav-bar">
+            <div id="navBarContentWrapper">
+                <h1 id="titleWrapper">WHAT DO!</h1>
+                <h3>friends</h3>
+                <h3>settings</h3>
+                <h3>logout</h3>
+            </div>
+        </div>
+        <div id="topSpacer"></div>
+        <div id="contentWrapper">
+            <div id="sidebar">
+                <div class="panel panel-default"id="sidebarPanel">
+                    <div class="panel-heading" id="sidebarHeader">Future Features Here: order by date, category, etc</div>
+                    <div class="panel-body" id="sidebarBody">
+                        <div id="currentTasksWrapper">
+                            <ul class="list-group">
+                                    <li class="list-group-item" ng-repeat="task in list" ng-click="setDisplayTask(task)">
+                                        <span class="badge">{{task.taskListSize}}</span><span id="sidebarTaskTitle">{{task.title}}</span>
+                                    </li>
+                            </ul>
+                        </div>
+                        <div ng-controller="newTaskModalCtrl" id="addTaskButtonWrapper">
+                            <script type="text/ng-template"></script>
+                            <button type="button" class="btn btn-group-lg btn-primary" id="addTaskButton" ng-click="newTaskModal()">+ Add Task Group</button><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="taskWrapper">
+                <uib-accordion ng-model="$scope.currentDisplayTask" close-others="false" id="taskBlock">
+                    <div id="taskHeaderWrapper"class="task-header">
+                        <span ng-controller="addTaskModalCtrl">
+                            <script type="text/ng-template"></script>
+                            <span id="plusButton"class="glyphicon glyphicon-plus" ng-click="addTaskItemModal()"></span>
+                        </span>
+                        <h4 id="taskTitleLine">{{currentDisplayTask.title}}</h4>
+                        <span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(currentDisplayTask, $index)"></span>
+                        <br>
+                        <h5 id="taskDescLine">{{currentDisplayTask.description}}</h5>
+                    </div>
+                    <uib-accordion-group ng-repeat="item in currentDisplayTask.taskList">
+                        <uib-accordion-heading id="item-heading">
+                            <div id="statusWrapper" ng-click="$scope.openAccor=!$scope.openAccor">
+                                <h4>{{item.content}}
+                                    <i id="carrot"class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': $scope.openAccor, 'glyphicon-chevron-right': !$scope.openAccor}"></i>
+                                </h4>
+                            </div>
+                        </uib-accordion-heading>
+                        <div id="taskItemContent">
+                            <div id="statusContent">
+                                <h4 class="label label-info">Status</h4>: {{item.status}}
+                                <div class="btn-group" role="itemGroup" id="modButtonsWrapper">
+                                    <button type="button" class="btn btn-default">
+                                        <div uib-dropdown is-open="status.isopen">
+                                            <span  class="glyphicon glyphicon-cog" uib-dropdown-toggle ng-disabled="disabled"></span>
+                                            <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                                                <li role="menuitem">
+                                                    <div ng-controller="modTaskItemModalCtrl">
+                                                        <script type="text/ng-template"></script>
+                                                        <a ng-click="modTaskItemModal()">Change Task</a>
+                                                    </div>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <div ng-controller="modTaskStatusModalCtrl">
+                                                        <script type="text/ng-template"></script>
+                                                        <a ng-click="modTaskStatusModal()">Update Status</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </button>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-remove"ng-click="removeTaskItem($index, item, currentDisplayTask)"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="commentContent">
+                                <ul class="list-group" id="commentListGroup">
+                                    <li class="list-group-item" ng-repeat="comment in item.commentList">
+                                        <h5 class="label label-default">{{comment.date_created}}:</h5> {{comment.content}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="commentInputWrapper">
+                                <form id="addCommentForm"  novalidate>
+                                    <input id="commentInput" type="text" placeholder="Add new comment..." ng-model="comment.newComment" autofocus required>
+                                    <input id="commentSubmit" type="submit" ng-click="submitComment(item, task)" value="Add">
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </uib-accordion-group>
+                    <hr id="taskSeparator">
+                </uib-accordion>
+            </div>
+        </div>
+    </div>
+</div>

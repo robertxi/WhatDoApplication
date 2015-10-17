@@ -1,0 +1,209 @@
+li{
+    display: inline;
+}
+button:active, .button:active, button:focus, .button:focus, button:hover, .button:hover{
+    border:none !important;
+    outline:none !important;
+}
+
+html * {
+    outline:0 !important;
+}
+
+#item-heading{
+    text-decoration: none;
+}
+#taskWrapper{
+width: 600px;
+float: left;
+margin-left: 50px;
+text-align:center;
+display: inline-block;
+font-family: Helvetica;
+background-color: white;
+}
+
+#statusWrapper{
+width: 500px;
+text-align:left;
+}
+
+#statusContent{
+text-align: left;
+padding-left: 30px;
+margin-bottom:15px;
+}
+
+#modButtonsWrapper{
+width: 150px;
+z-index:900;
+float: right;
+}
+
+#wrapper{
+align:center;
+}
+
+#commentContent{
+text-align:left;
+padding-left:40px;
+padding-right:48px;
+}
+
+#taskBlock{
+margin:15px;
+}
+.panel-group{
+border: 1px solid #ddd;
+}
+
+.btn, .btn-sm{
+border-radius:0;
+border:none;
+}
+
+#carrot{
+margin-right:30px
+}
+
+#taskRemoveButton{
+display: inline-block;
+width: 3%;
+color: #CC0000;
+}
+#taskRemoveButton:hover{
+font-weight: bold;
+font-size: 1.3em;
+}
+
+#plusButton{
+display: inline-block;
+width: 3%;
+color: #009933;
+}
+
+#plusButton:hover{
+font-weight: bold;
+font-size: 1.3em;
+}
+
+#nav-bar{
+position:fixed;
+background:white;
+width:100%;
+z-index:1000;
+border-bottom: 1px solid black;
+padding-bottom:16px;
+background-color:#69A682;
+color: white;
+height:80px;
+}
+#topSpacer{
+height: 80px;
+}
+
+#navBarContentWrapper{
+margin: 0 auto;
+text-align: center;
+width: 1000px;
+
+}
+
+#titleWrapper{
+border-top: 3px solid #2D804F;
+border-bottom:3px solid #2D804F; 
+width: 200px; 
+font-family: trebuchet ms;
+display: inline-block;
+float: left;
+}
+
+#addTaskButton{
+margin: 0 auto;
+font-family: trebuchet ms;
+background-color: white;
+color: #657a98;
+font-size: 15px;
+padding-bottom: 0px;
+border-bottom: 2px solid #304d75;
+}
+#addTaskButtonWrapper{
+text-align: center;
+height: 35px;
+}
+
+#taskTitleLine{
+width: 85%;
+display: inline-block;
+
+}
+
+#taskHeaderWrapper{
+text-align: center;
+}
+div.panel.panel-default{
+border-radius: 0;
+border-color: #c7c7c7;
+}
+
+div.panel-group{
+border: none;
+}
+
+
+#taskSeparator{
+margin-top: 30px;
+}
+
+li.list-group-item.ng-binding.ng-scope{
+
+}
+
+#commentInputWrapper{
+width: 500px;
+text-align: left;
+margin-left: 41px;
+margin-bottom: 5px;
+}
+
+#commentInput{
+width: 425px;
+margin-right: 5px
+}
+
+#sidebar{
+float: left;
+display: inline-block;
+height: 100vh;
+width: 300px;
+}
+
+#wrapper{
+text-align: center;
+}
+#contentWrapper{
+display: inline-block;
+width: 1000px;
+}
+
+#sidebarHeader{
+padding-top: 60px;
+padding-bottom: 60px;
+}
+h3{
+display: inline-block;
+border-bottom: 2px solid #2D804F;
+float: left;
+margin: 36px 15px
+}
+
+#sidebarTaskTitle:hover{
+font-size: 1.1em;
+}
+.badge{
+background-color: #4a6488
+}
+
+.modal-header{
+height: 70px;
+}

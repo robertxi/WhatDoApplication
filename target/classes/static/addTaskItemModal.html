@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add A New Task To: {{currentDisplayTask.title}}</h3>
+</div>
+<div class="modal-body">
+    <form ng-submit="addTask()" id="addForm">
+        <input type="text" class="form-control" placeholder="Add new task item..." ng-model="newTaskContent" autofocus required>
+    </select>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" form="addForm" value="submit" ng-click="submitAddNewItem(currentDisplayTask)">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelWindow()">Cancel</button>
+</div>

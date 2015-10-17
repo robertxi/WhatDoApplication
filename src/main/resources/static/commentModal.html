@@ -1,0 +1,15 @@
+
+<div class="modal-header">
+    <h3 class="modal-title"> Comment Task Thread: {{item.content}}</h3>
+</div>
+<div class="modal-body">
+    <form ng-submit="modTask()" id="addForm" class="css-form" novalidate>
+        <span class="input-group-addon">Add Comment</span>
+        <input type="text" class="form-control" placeholder="Insert New Comment Here" ng-model="newComment" autofocus required>
+        </select>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" form="addForm" value="submit" ng-click="submitComment(item, task)">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelWindow()">Cancel</button>
+</div>

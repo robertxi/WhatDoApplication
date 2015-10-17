@@ -1,0 +1,93 @@
+<div id="wrapper">
+    <div ng-controller="toDoListCtrl">
+        <div data-ng-init="init()"></div>
+        <!--<div>{{list}}</div>-->
+        <div id="nav-bar">
+            <h1 id="titleWrapper">WHAT DO!</h1>
+            <div ng-controller="newTaskModalCtrl">
+                <script type="text/ng-template"></script>
+                <button type="button" class="btn btn-group-lg btn-primary" id="addTaskButton" ng-click="newTaskModal()">Add Task Group</button><br>
+            </div>
+        </div>
+        <div id="topSpacer"></div>
+        <div id="taskWrapper">
+            <uib-accordion ng-repeat="task in list" close-others="false" id="taskBlock">
+                <div id="taskHeaderWrapper"class="task-header">
+                    <span ng-controller="addTaskModalCtrl">
+                        <script type="text/ng-template"></script>
+                        <span id="plusButton"class="glyphicon glyphicon-plus" ng-click="addTaskItemModal()"></span>
+                    </span>
+
+                    <h4 id="taskTitleLine">{{task.title}}</h4>
+
+                    <span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(task, $index)"></span>
+
+
+                </div>
+
+
+                <uib-accordion-group ng-repeat="item in task.taskList">
+                    <uib-accordion-heading id="item-heading">
+                        <div id="statusWrapper" ng-click="$scope.openAccor=!$scope.openAccor">
+                            <h4>{{item.content}}
+                                <i id="carrot"class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': $scope.openAccor, 'glyphicon-chevron-right': !$scope.openAccor}"></i>
+                            </h4>
+                        </div>
+
+                    </uib-accordion-heading>
+                        <div id="taskItemContent">
+                            <div id="statusContent">
+                                <h4 class="label label-info">Status</h4>: {{item.status}}
+                                <div class="btn-group" role="itemGroup" id="modButtonsWrapper">
+                                    <button type="button" class="btn btn-default">
+                                        <div ng-controller="commentModalCtrl">
+                                            <script type="text/ng-template"></script>
+                                            <span  class="glyphicon glyphicon-pencil" ng-click="initCommentModal()"></span>
+                                        </div>
+                                    </button>
+                                    <button type="button" class="btn btn-default">
+                                        <div uib-dropdown is-open="status.isopen">
+                                            <span  class="glyphicon glyphicon-cog" uib-dropdown-toggle ng-disabled="disabled"></span>
+                                            <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                                                <li role="menuitem">
+                                                    <div ng-controller="modTaskItemModalCtrl">
+                                                        <script type="text/ng-template"></script>
+                                                        <a ng-click="modTaskItemModal()">Change Task</a>
+                                                    </div>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <div ng-controller="modTaskStatusModalCtrl">
+                                                        <script type="text/ng-template"></script>
+                                                        <a ng-click="modTaskStatusModal()">Update Status</a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </button>
+                                    <button type="button" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-remove"ng-click="removeTaskItem($index, item, task)"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="commentContent">
+                                <ul class="list-group">
+                                    <li class="list-group-item" ng-repeat="comment in item.commentList">
+                                        <h5 class="label label-default">Comment by {{comment.user_id}} on {{comment.date_created}}:</h5> {{comment.content}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="commentInput">
+                                <form id="addForm"  novalidate>
+                                    <input type="text" placeholder="Add new comment..." ng-model="comment.newComment" autofocus required>
+                                    <input type="submit" ng-click="submitComment(item, task)" value="Add">
+                                </form>
+                            </div>
+                        </div>
+
+
+                </uib-accordion-group>
+                <hr id="taskSeparator">
+            </uib-accordion>
+        </div>
+    </div>
+</div>

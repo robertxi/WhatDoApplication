@@ -1,0 +1,15 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add New Task Group</h3>
+</div>
+<div class="modal-body" i>
+    <form id="newTaskForm">
+
+        <input type="text" class="form-control" placeholder="Enter Task Title Here" ng-model="newTaskTitle" autofocus>
+        <hr>
+        <input type="text" class="form-control" placeholder="Enter Description Here" ng-model="newTaskDesc">
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" form="newTaskForm" ng-click="submitNewTask()">Submit</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelWindow()">Cancel</button>
+</div>

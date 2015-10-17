@@ -1,0 +1,65 @@
+<div id="wrapper">
+    <div ng-controller="toDoListCtrl">
+        <div data-ng-init="init()"></div>
+        <!--<div>{{list}}</div>-->
+        <div style="margin-bottom: 15px;">
+            <h1>To Do List</h1>
+            <div ng-controller="newTaskModalCtrl">
+                <script type="text/ng-template"></script>
+                <button class="btn btn-group-lg btn-success" ng-click="newTaskModal()">Add New Task Group!</button><br>
+            </div>
+        </div>
+        <div>
+            <uib-accordion ng-repeat="task in list" close-others="false">
+                <div class="list-group-item"><h4>{{task.title}}</h4></div>
+
+                <uib-accordion-group ng-repeat="item in task.taskList" heading="{{item.content}}">
+                    <ul class="list-group">
+                        <li class="list-group-item"><h4 class="label label-info">Status</h4>: {{item.status}}</li>
+                    </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item" ng-repeat="comment in item.commentList">
+                            <h5 class="label label-default">Comment by {{comment.user_id}} on {{comment.date_created}}:</h5> {{comment.content}}
+                        </li>
+                    </ul>
+                    <div class="btn-group" role="taskItemGroup">
+                        <div class="btn-group" ng-controller="commentModalCtrl">
+                            <script type="text/ng-template"></script>
+                            <button type="button" class="btn btn-success" ng-click="initCommentModal()">Comment</button>
+                        </div>
+                        <span class="btn-group"role="taskItemGroup" ng-controller="updateDropDownCtrl">
+                            <div class="btn-group" uib-dropdown is-open="status.isopen">
+                                <button type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+                                    Update!<span class="caret"></span>
+                                </button>
+                                <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
+                                    <li role="menuitem">
+                                        <div ng-controller="modTaskItemModalCtrl">
+                                            <script type="text/ng-template"></script>
+                                            <a ng-click="modTaskItemModal()">Change Task</a>
+                                        </div>
+                                    </li>
+                                    <li role="menuitem">
+                                        <div ng-controller="modTaskStatusModalCtrl">
+                                            <script type="text/ng-template"></script>
+                                            <a ng-click="modTaskStatusModal()">Update Status</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </span>
+                        <script>console.log($parent.$index);</script>
+                        <button type="button" class="btn btn-warning" ng-click="removeTaskItem($index, item, task)">Remove</button>
+                    </div>
+                </uib-accordion-group>
+                <div class="btn-group" role="taskGroup">
+                    <span class="btn-group" role="taskGroup" ng-controller="addTaskModalCtrl">
+                        <script type="text/ng-template"></script>
+                        <button type="button" class="btn btn-primary" ng-click="addTaskItemModal()">Add Task Line</button>
+                    </span>
+                    <button type="button" class = "btn btn-danger" ng-click="deleteTask(task, $index)">Delete This Group</button>
+                </div>
+            </uib-accordion>
+        </div>
+    </div>
+</div>
