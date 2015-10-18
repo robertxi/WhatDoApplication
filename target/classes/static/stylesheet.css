@@ -38,6 +38,7 @@ margin-bottom:15px;
 width: 150px;
 z-index:900;
 float: right;
+margin-left: 
 }
 
 #wrapper{
@@ -65,11 +66,14 @@ border:none;
 #carrot{
 margin-right:30px
 }
-
+#taskcountBadge{
+margin-left: 5px;
+}
 #taskRemoveButton{
 display: inline-block;
 width: 3%;
 color: #CC0000;
+float: right;
 }
 #taskRemoveButton:hover{
 font-weight: bold;
@@ -78,13 +82,16 @@ font-size: 1.3em;
 
 #plusButton{
 display: inline-block;
-width: 3%;
+width: 200px;
 color: #009933;
+color: #657a98;
+border-bottom: 2px solid #304d75;
+width: 150px;
+margin-top: 20px;
 }
 
 #plusButton:hover{
-font-weight: bold;
-font-size: 1.3em;
+font-size: 1.1em;
 }
 
 #nav-bar{
@@ -122,9 +129,10 @@ float: left;
 margin: 0 auto;
 font-family: trebuchet ms;
 background-color: white;
-color: #657a98;
+
 font-size: 15px;
 padding-bottom: 0px;
+color: #657a98;
 border-bottom: 2px solid #304d75;
 }
 #addTaskButtonWrapper{
@@ -200,10 +208,22 @@ margin: 36px 15px
 #sidebarTaskTitle:hover{
 font-size: 1.1em;
 }
+
 .badge{
 background-color: #4a6488
 }
 
 .modal-header{
 height: 70px;
+}
+
+#currentTaskWrapper{
+text-align: left;
+}
+#sidebarTaskTitleUnit{
+text-align: left;
+}
+
+#sideBarTaskTitleUnitWrapper{
+text-align: left;
 }

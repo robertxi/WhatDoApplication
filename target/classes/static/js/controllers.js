@@ -219,6 +219,7 @@ whatDoApp.controller('toDoListCtrl',function($scope, $http){
         var res = $http.post('http://localhost:8080/deleteTask', task)
         res.success(function(){
             $scope.list.splice($scope.currentDisplayTaskIndex,1);
+            $scope.currentDisplayTask = $scope.list[0];
         });
         res.error(function(){
             alert("unable to delete task list");

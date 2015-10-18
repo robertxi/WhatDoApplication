@@ -18,9 +18,15 @@
                     <div class="panel-body" id="sidebarBody">
                         <div id="currentTasksWrapper">
                             <ul class="list-group">
-                                    <li class="list-group-item" ng-repeat="task in list" ng-click="setDisplayTask(task)">
-                                        <span class="badge">{{task.taskListSize}}</span><span id="sidebarTaskTitle">{{task.title}}</span>
-                                    </li>
+                                <li id="sideBarTaskTitleUnitWrapper"class="list-group-item" ng-repeat="task in list" ng-click="setDisplayTask(task)">
+                                    <span id="sidebarTaskTitleUnit">
+                                        <span id="sidebarTaskTitle">{{task.title}}</span>
+                                        <span id="taskcountBadge"class="badge">{{task.taskListSize}}</span>
+                                    </span>
+
+                                    <span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(task, $index)"></span>
+                                </li>
+
                             </ul>
                         </div>
                         <div ng-controller="newTaskModalCtrl" id="addTaskButtonWrapper">
@@ -33,12 +39,7 @@
             <div id="taskWrapper">
                 <uib-accordion ng-model="$scope.currentDisplayTask" close-others="false" id="taskBlock">
                     <div id="taskHeaderWrapper"class="task-header">
-                        <span ng-controller="addTaskModalCtrl">
-                            <script type="text/ng-template"></script>
-                            <span id="plusButton"class="glyphicon glyphicon-plus" ng-click="addTaskItemModal()"></span>
-                        </span>
                         <h4 id="taskTitleLine">{{currentDisplayTask.title}}</h4>
-                        <span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(currentDisplayTask, $index)"></span>
                         <br>
                         <h5 id="taskDescLine">{{currentDisplayTask.description}}</h5>
                     </div>
@@ -95,6 +96,10 @@
 
 
                     </uib-accordion-group>
+                    <span ng-controller="addTaskModalCtrl">
+                        <script type="text/ng-template"></script>
+                        <span id="plusButton" ng-click="addTaskItemModal()">+ Add a New Task</span>
+                    </span>
                     <hr id="taskSeparator">
                 </uib-accordion>
             </div>
