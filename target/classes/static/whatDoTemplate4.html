@@ -23,8 +23,13 @@
                                         <span id="sidebarTaskTitle">{{task.title}}</span>
                                         <span id="taskcountBadge"class="badge">{{task.taskListSize}}</span>
                                     </span>
-
-                                    <span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(task, $index)"></span>
+                                    <span id="taskRemoveButton">
+                                        <div ng-controller="deleteTaskModalCtrl">
+                                            <script type="text/ng-template"></script>
+                                            <span class="glyphicon glyphicon-remove" ng-click="deleteTaskModal()"></span>
+                                        </div>
+                                    </span>
+                                    <!--<span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(task, $index)"></span>-->
                                 </li>
 
                             </ul>
@@ -37,11 +42,12 @@
                 </div>
             </div>
             <div id="taskWrapper">
-                <uib-accordion ng-model="$scope.currentDisplayTask" close-others="false" id="taskBlock">
+                <uib-accordion ng-model="currentDisplayTask" close-others="false" id="taskBlock">
                     <div id="taskHeaderWrapper"class="task-header">
-                        <h4 id="taskTitleLine">{{currentDisplayTask.title}}</h4>
+                        <h2 id="taskTitleLine">{{currentDisplayTask.title}}</h2>
                         <br>
-                        <h5 id="taskDescLine">{{currentDisplayTask.description}}</h5>
+                        <h4 id="taskDescLine">{{currentDisplayTask.description}}</h4>
+                        <hr>
                     </div>
                     <uib-accordion-group ng-repeat="item in currentDisplayTask.taskList">
                         <uib-accordion-heading id="item-heading">

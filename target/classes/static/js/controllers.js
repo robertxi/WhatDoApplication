@@ -90,7 +90,31 @@ whatDoApp.controller('addTaskModalCtrl',function($scope,$http,$uibModal){
    };
 });
 
+whatDoApp.controller('deleteTaskModalCtrl',function($scope,$http,$uibModal){
+    $scope.animationsEnabled=true;
+    $scope.deleteTaskModal=function(){
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'removeTaskModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope,
+        });
+    };
+});
+
 whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
+
+    $scope.deleteTask=function(task, index){
+        var res = $http.post('http://localhost:8080/deleteTask', task)
+        res.success(function(){
+            $scope.list.splice($scope.currentDisplayTaskIndex,1);
+            $scope.$parent.$parent.$parent.currentDisplayTask = $scope.list[0];
+            $modalInstance.close();
+        });
+        res.error(function(){
+            alert("unable to delete task list");
+        })
+    };
 
     $scope.submitComment=function(item,task){
         var date = new Date().toDateString();

@@ -1,0 +1,13 @@
+
+<div class="modal-header">
+    <h3 class="modal-title">Removing Task: {{task.title}}</h3>
+</div>
+<div class="modal-body">
+    <form ng-submit="modTask()" id="addForm" class="css-form" novalidate>
+        Are you sure you want to delete {{task.title}}?
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="submit" form="addForm" value="submit" ng-click="deleteTask(task, $index)">Yes, Delete</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelWindow()">Cancel</button>
+</div>
