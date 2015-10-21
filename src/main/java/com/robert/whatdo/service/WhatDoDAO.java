@@ -1,5 +1,8 @@
-package hello;
+package com.robert.whatdo.service;
 
+import com.robert.whatdo.model.Comment;
+import com.robert.whatdo.model.Task;
+import com.robert.whatdo.model.TaskItem;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;

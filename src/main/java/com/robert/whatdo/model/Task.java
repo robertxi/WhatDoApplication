@@ -1,4 +1,6 @@
-package hello;
+package com.robert.whatdo.model;
+
+import com.robert.whatdo.model.TaskItem;
 
 import java.util.List;
 

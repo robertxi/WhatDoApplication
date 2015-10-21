@@ -1,4 +1,4 @@
-package hello;
+package com.robert.whatdo.model;
 
 import java.util.List;
 

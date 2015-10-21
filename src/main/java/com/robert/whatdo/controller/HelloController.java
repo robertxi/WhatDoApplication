@@ -1,18 +1,17 @@
-package hello;
+package com.robert.whatdo.controller;
 
-import ch.qos.logback.classic.db.DBHelper;
-import com.sun.java.browser.plugin2.DOM;
-import org.json.simple.JSONArray;
+import com.robert.whatdo.model.Comment;
+import com.robert.whatdo.model.Task;
+import com.robert.whatdo.model.TaskItem;
+import com.robert.whatdo.service.CommentService;
+import com.robert.whatdo.service.TaskItemService;
+import com.robert.whatdo.service.TaskService;
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.*;
-import java.sql.ResultSet;
 import java.util.*;
 
 @RestController

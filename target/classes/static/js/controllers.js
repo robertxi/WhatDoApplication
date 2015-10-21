@@ -10,105 +10,20 @@ whatDoApp.config(['$routeProvider',function($routeProvider){
             controller: 'toDoListCtrl'
         });
 }]);
-whatDoApp.controller('commentModalCtrl',function($scope,$http,$uibModal){
-    $scope.animationsEnabled=true;
-    $scope.commentModal=function(){
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'commentModal.html',
-            controller:'ModalInstanceCtrl',
-            scope:$scope,
-        });
-    };
-});
-whatDoApp.controller('newTaskModalCtrl',function($scope,$http,$uibModal){
-   $scope.animationsEnabled=true;
-    $scope.newTaskModal=function(){
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'newTaskModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope: $scope,
-        });
-    };
-});
+
+
 whatDoApp.controller('updateDropDownCtrl', function ($scope, $log) {
     $scope.status = {isopen: false};
-});
-
-whatDoApp.controller('commentModalCtrl',function($scope,$http,$uibModal){
-    console.log("in the redirecting controller");
-    $scope.animationsEnabled=true;
-    $scope.initCommentModal=function(){
-        console.log("ready to open dialog");
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'commentModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope:$scope,
-        });
-        console.log("dialog has been opened");
-    };
-});
-whatDoApp.controller('modTaskItemModalCtrl',function($scope,$http,$uibModal){
-    console.log("in the redirecting controller");
-    $scope.animationsEnabled=true;
-    $scope.modTaskItemModal=function(){
-        console.log("ready to open dialog");
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'modTaskItemModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope:$scope,
-        });
-        console.log("dialog has been opened");
-    };
-});
-whatDoApp.controller('modTaskStatusModalCtrl',function($scope,$http,$uibModal){
-    console.log("in the redirecting controller");
-    $scope.animationsEnabled=true;
-    $scope.modTaskStatusModal=function(){
-        console.log("ready to open dialog");
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'modTaskStatusModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope:$scope,
-        });
-        console.log("dialog has been opened");
-    };
-});
-whatDoApp.controller('addTaskModalCtrl',function($scope,$http,$uibModal){
-    $scope.animationsEnabled=true;
-    $scope.addTaskItemModal=function(){
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'addTaskItemModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope:$scope,
-        });
-   };
-});
-
-whatDoApp.controller('deleteTaskModalCtrl',function($scope,$http,$uibModal){
-    $scope.animationsEnabled=true;
-    $scope.deleteTaskModal=function(){
-        $uibModal.open({
-            animation:$scope.animationsEnabled,
-            templateUrl: 'removeTaskModal.html',
-            controller: 'ModalInstanceCtrl',
-            scope:$scope,
-        });
-    };
 });
 
 whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
 
     $scope.deleteTask=function(task, index){
-        var res = $http.post('http://localhost:8080/deleteTask', task)
+        var res = $http.post('http://localhost:8080/deleteTask', task);
         res.success(function(){
+            console.log(task);
             $scope.list.splice($scope.currentDisplayTaskIndex,1);
-            $scope.$parent.$parent.$parent.currentDisplayTask = $scope.list[0];
+            $scope.$parent.currentDisplayTask = $scope.list[0];
             $modalInstance.close();
         });
         res.error(function(){
@@ -148,7 +63,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
 
     $scope.submitModStatus=function(task){
         var date = new Date().toDateString();
-        var data = {'content':$scope.item.content,'id':$scope.item.id,'date_modified':date,'status':$scope.newTaskItemStatus,'task_id':$scope.item.task_id};
+        var data = {'content':$scope.currentDisplayTaskItem.content,'id':$scope.currentDisplayTaskItem.id,'date_modified':date,'status':$scope.newTaskItemStatus,'task_id':$scope.currentDisplayTaskItem.task_id};
         console.log(data);
         var res = $http.post('http://localhost:8080/updateTaskItem/', data);
         res.success(function(data,status,headers,config){
@@ -164,7 +79,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
     };
     $scope.submitModItem=function(task){
         var date = new Date().toDateString();
-        var data = {'content':$scope.newTaskItemContent,'id':$scope.item.id,'date_modified':date,'status':$scope.item.status,'task_id':$scope.item.task_id};
+        var data = {'content':$scope.newTaskItemContent,'id':$scope.currentDisplayTaskItem.id,'date_modified':date,'status':$scope.currentDisplayTaskItem.status,'task_id':$scope.currentDisplayTaskItem.task_id};
         console.log(data);
         var res = $http.post('http://localhost:8080/updateTaskItem/', data);
         res.success(function(data,status,headers,config){
@@ -201,7 +116,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
     $scope.newTaskItemContent="";
 });
 
-whatDoApp.controller('toDoListCtrl',function($scope, $http){
+whatDoApp.controller('toDoListCtrl',function($scope, $http, $uibModal){
     $scope.list=[];
     $scope.newTaskContent="";
     $scope.shown = true;
@@ -209,7 +124,54 @@ whatDoApp.controller('toDoListCtrl',function($scope, $http){
     $scope.comment={newComment:''};
     $scope.currentDisplayTask=null;
     $scope.currentDisplayTaskIndex=null;
+    $scope.animationsEnabled=true;
+    $scope.currentDisplayTaskItem=null;
 
+    $scope.modTaskStatusModal=function(){
+        console.log("ready to open dialog");
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'modTaskStatusModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope,
+        });
+        console.log("dialog has been opened");
+    };
+    $scope.modTaskItemModal=function(index){
+        $scope.currentDisplayTaskItem = $scope.currentDisplayTask.taskList[index];
+        console.log("ready to open dialog");
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'modTaskItemModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope,
+        });
+        console.log("dialog has been opened");
+    };
+    $scope.newTaskModal=function(){
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'newTaskModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope: $scope,
+        });
+    };
+    $scope.addTaskItemModal=function(){
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'addTaskItemModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope,
+        });
+    };
+    $scope.deleteTaskModal=function(){
+        $uibModal.open({
+            animation:$scope.animationsEnabled,
+            templateUrl: 'removeTaskModal.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope,
+        });
+    };
     $scope.submitComment=function(item,task){
         var date = new Date().toDateString();
         //set user_id to 1 until multiuser implemented

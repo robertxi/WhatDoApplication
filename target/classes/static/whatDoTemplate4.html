@@ -24,17 +24,16 @@
                                         <span id="taskcountBadge"class="badge">{{task.taskListSize}}</span>
                                     </span>
                                     <span id="taskRemoveButton">
-                                        <div ng-controller="deleteTaskModalCtrl">
+                                        <div>
                                             <script type="text/ng-template"></script>
                                             <span class="glyphicon glyphicon-remove" ng-click="deleteTaskModal()"></span>
                                         </div>
                                     </span>
-                                    <!--<span id="taskRemoveButton"class="glyphicon glyphicon-remove" ng-click="deleteTask(task, $index)"></span>-->
                                 </li>
 
                             </ul>
                         </div>
-                        <div ng-controller="newTaskModalCtrl" id="addTaskButtonWrapper">
+                        <div id="addTaskButtonWrapper">
                             <script type="text/ng-template"></script>
                             <button type="button" class="btn btn-group-lg btn-primary" id="addTaskButton" ng-click="newTaskModal()">+ Add Task Group</button><br>
                         </div>
@@ -51,9 +50,9 @@
                     </div>
                     <uib-accordion-group ng-repeat="item in currentDisplayTask.taskList">
                         <uib-accordion-heading id="item-heading">
-                            <div id="statusWrapper" ng-click="$scope.openAccor=!$scope.openAccor">
+                            <div id="statusWrapper" ng-click="openAccor=!openAccor">
                                 <h4>{{item.content}}
-                                    <i id="carrot"class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': $scope.openAccor, 'glyphicon-chevron-right': !$scope.openAccor}"></i>
+                                    <i id="carrot"class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': openAccor, 'glyphicon-chevron-right': !openAccor}"></i>
                                 </h4>
                             </div>
                         </uib-accordion-heading>
@@ -66,13 +65,13 @@
                                             <span  class="glyphicon glyphicon-cog" uib-dropdown-toggle ng-disabled="disabled"></span>
                                             <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
                                                 <li role="menuitem">
-                                                    <div ng-controller="modTaskItemModalCtrl">
+                                                    <div>
                                                         <script type="text/ng-template"></script>
-                                                        <a ng-click="modTaskItemModal()">Change Task</a>
+                                                        <a ng-click="modTaskItemModal($index)">Change Task</a>
                                                     </div>
                                                 </li>
                                                 <li role="menuitem">
-                                                    <div ng-controller="modTaskStatusModalCtrl">
+                                                    <div>
                                                         <script type="text/ng-template"></script>
                                                         <a ng-click="modTaskStatusModal()">Update Status</a>
                                                     </div>
@@ -102,7 +101,7 @@
 
 
                     </uib-accordion-group>
-                    <span ng-controller="addTaskModalCtrl">
+                    <span >
                         <script type="text/ng-template"></script>
                         <span id="plusButton" ng-click="addTaskItemModal()">+ Add a New Task</span>
                     </span>

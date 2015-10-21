@@ -1,4 +1,4 @@
-package hello;
+package com.robert.whatdo.model;
 
 /**
  * Created by RobertXi on 10/5/15.
