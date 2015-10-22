@@ -65,7 +65,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
         var date = new Date().toDateString();
         var data = {'content':$scope.currentDisplayTaskItem.content,'id':$scope.currentDisplayTaskItem.id,'date_modified':date,'status':$scope.newTaskItemStatus,'task_id':$scope.currentDisplayTaskItem.task_id};
         console.log(data);
-        var res = $http.post('http://localhost:8080/updateTaskItem/', data);
+        var res = $http.put('http://localhost:8080/updateTaskItem/', data);
         res.success(function(data,status,headers,config){
             $scope.list[$scope.list.indexOf(task)] = data;
             $scope.currentDisplayTask.taskList=data.taskList;
@@ -81,7 +81,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
         var date = new Date().toDateString();
         var data = {'content':$scope.newTaskItemContent,'id':$scope.currentDisplayTaskItem.id,'date_modified':date,'status':$scope.currentDisplayTaskItem.status,'task_id':$scope.currentDisplayTaskItem.task_id};
         console.log(data);
-        var res = $http.post('http://localhost:8080/updateTaskItem/', data);
+        var res = $http.put('http://localhost:8080/updateTaskItem/', data);
         res.success(function(data,status,headers,config){
             $scope.list[$scope.list.indexOf(task)] = data;
             $scope.currentDisplayTask.taskList = data.taskList;
@@ -127,7 +127,8 @@ whatDoApp.controller('toDoListCtrl',function($scope, $http, $uibModal){
     $scope.animationsEnabled=true;
     $scope.currentDisplayTaskItem=null;
 
-    $scope.modTaskStatusModal=function(){
+    $scope.modTaskStatusModal=function(index){
+        $scope.currentDisplayTaskItem = $scope.currentDisplayTask.taskList[index];
         console.log("ready to open dialog");
         $uibModal.open({
             animation:$scope.animationsEnabled,
@@ -201,16 +202,6 @@ whatDoApp.controller('toDoListCtrl',function($scope, $http, $uibModal){
 
     };
 
-    $scope.deleteTask=function(task, index){
-        var res = $http.post('http://localhost:8080/deleteTask', task)
-        res.success(function(){
-            $scope.list.splice($scope.currentDisplayTaskIndex,1);
-            $scope.currentDisplayTask = $scope.list[0];
-        });
-        res.error(function(){
-            alert("unable to delete task list");
-        })
-    };
 
     $scope.init = function(){
         $http.get('http://localhost:8080/init/').then(function(response){

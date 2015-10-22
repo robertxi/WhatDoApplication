@@ -52,7 +52,7 @@ public class HelloController {
         ret.setTaskListSize(ret.getTaskList().size());
         return ret;
     }
-    @RequestMapping(value="/updateTaskItem",method=RequestMethod.POST)
+    @RequestMapping(value="/updateTaskItem",method=RequestMethod.PUT)
     public Task updateTaskItem(@RequestBody JSONObject obj){
         TaskItem item = new TaskItem();
 

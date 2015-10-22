@@ -73,7 +73,7 @@
                                                 <li role="menuitem">
                                                     <div>
                                                         <script type="text/ng-template"></script>
-                                                        <a ng-click="modTaskStatusModal()">Update Status</a>
+                                                        <a ng-click="modTaskStatusModal($index)">Update Status</a>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -86,14 +86,14 @@
                             </div>
                             <div id="commentContent">
                                 <ul class="list-group" id="commentListGroup">
-                                    <li class="list-group-item" ng-repeat="comment in item.commentList">
+                                    <li id="commentBlock"class="list-group-item" ng-repeat="comment in item.commentList">
                                         <h5 class="label label-default">{{comment.date_created}}:</h5> {{comment.content}}
                                     </li>
                                 </ul>
                             </div>
                             <div id="commentInputWrapper">
                                 <form id="addCommentForm"  novalidate>
-                                    <input id="commentInput" type="text" placeholder="Add new comment..." ng-model="comment.newComment" autofocus required>
+                                    <textarea id="commentInput" type="text" placeholder="Add new comment..." ng-model="comment.newComment"  maxlength="300" autofocus required></textarea>
                                     <input id="commentSubmit" type="submit" ng-click="submitComment(item, task)" value="Add">
                                 </form>
                             </div>

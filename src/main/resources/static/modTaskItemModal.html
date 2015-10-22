@@ -1,10 +1,10 @@
 
 <div class="modal-header">
-    <h3 class="modal-title">Task Group: {{currentDisplayTask.title}}</h3>
+    <h3 class="modal-title">Task Group: {{currentDisplayTask.title}} | Modify Task</h3>
 </div>
 <div class="modal-body">
     <form ng-submit="modTask()" id="addForm" class="css-form" novalidate>
-        <input type="text" class="form-control" placeholder="{{currentDisplayTaskItem.content}}" ng-model="newTaskItemContent" autofocus required>
+        <input type="text" class="form-control" placeholder="{{currentDisplayTaskItem.content}}" ng-model="newTaskItemContent" autofocus required maxlength="300">
         </select>
     </form>
 </div>

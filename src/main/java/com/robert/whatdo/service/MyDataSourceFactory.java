@@ -25,7 +25,7 @@ public class MyDataSourceFactory {
         Properties props = new Properties();
         FileInputStream fis = null;
         try {
-            fis = new FileInputStream("/Users/RobertXi/IdeaProjects/gs-spring-boot/initial/src/main/java/hello/db.properties");
+            fis = new FileInputStream("/Users/RobertXi/IdeaProjects/gs-spring-boot/initial/src/main/java/com/robert/whatdo/service/db.properties");
             props.load(fis);
             ds = new MysqlDataSource();
             ds.setURL(props.getProperty("DB_URL"));

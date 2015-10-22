@@ -176,7 +176,9 @@ margin-bottom: 5px;
 
 #commentInput{
 width: 425px;
-margin-right: 5px
+margin-right: 5px;
+max-height: 190px;
+resize: vertical;
 }
 
 #sidebar{
@@ -226,4 +228,8 @@ text-align: left;
 
 #sideBarTaskTitleUnitWrapper{
 text-align: left;
+}
+
+#commentBlock{
+overflow: auto;
 }
