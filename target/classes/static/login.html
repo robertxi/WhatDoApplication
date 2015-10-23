@@ -1,0 +1,20 @@
+<div ng-controller="loginCtrl" id="loginWrapper">
+
+    <div id="loginFormWrapper" class="panel-body">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="userName">Username</label>
+                <input id="userName" type="text" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="text" class="form-control"/>
+            </div>
+        </form>
+        <div>
+            <button id="loginButton" form="loginForm" class="btn btn-default" ng-click="login()">Submit</button>
+            <script type="text/ng-template"></script>
+            <button id="registerButton" class="btn btn-default" ng-click="register()">Register</button>
+        </div>
+    </div>
+</div>

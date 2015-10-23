@@ -3,6 +3,7 @@ package com.robert.whatdo.service;
 import com.robert.whatdo.model.Comment;
 import com.robert.whatdo.model.Task;
 import com.robert.whatdo.model.TaskItem;
+import com.robert.whatdo.model.User;
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -35,9 +36,11 @@ public class WhatDoDAO {
     private static final String GET_TASK_LIST = "SELECT * FROM task WHERE user_id = ?";
     private static final String SELECT_TASKS = "Select * FROM task_item WHERE task_id =?";
     private static final String SELECT_TASKITEM_BY_ID = "SELECT * FROM task_item WHERE id=?";
+    private static final String CHECK_USERNAME="SELECT * FROM users WHERE username=?";
 
 
     //updates
+    private static final String REGISTER_USER = "INSERT INTO users (username, password, fName, lName, email, date_created) VALUES(?,?,?,?,?,?)";
     private static final String INSERT_NEW_COMMENT = "INSERT INTO comments(taskitem_id,content,date_created,user_id) VALUES (?,?,?,?)";
     private static final String INSERT_TASK_ITEM = "INSERT INTO task_item (task_id,content,date_created,date_modified,status) VALUES (?,?,?,?,?)";
     private static final String ADD_NEW_TASK = "INSERT INTO task (user_id, title, description, date_created, date_modified) VALUES (?,?,?,?,?)";
@@ -52,6 +55,30 @@ public class WhatDoDAO {
     //######################
     //QUERIES
     //######################
+    public static boolean checkUsername(String username){
+        queryParams=new Object[]{username};
+        User user = checkUsernameImpl(CHECK_USERNAME,queryParams);
+        if(null==user){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private static User checkUsernameImpl(String query, Object[] params){
+        User ret = null;
+        try {
+            DataSource dataSource = MyDataSourceFactory.INSTANCE.getDataSource();
+            QueryRunner run = new QueryRunner(dataSource);
+            ResultSetHandler<User> rH = new BeanHandler<>(User.class);
+            ret = run.query(query, rH, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return ret;
+    }
+
     public static List<Comment> getCommentList(int id) {
         queryParams = new Object[]{id};
         //String getCommentListFinal=String.format(GET_COMMENT_LIST,id);
@@ -174,6 +201,8 @@ public class WhatDoDAO {
     }
 
 
+
+
     //######################
     //UPDATES
     //######################
@@ -186,6 +215,12 @@ public class WhatDoDAO {
             e.printStackTrace();
         } finally {
         }
+    }
+
+
+    public static void registerUser(User user){
+        Object[] params = new Object[]{user.getUsername(), user.getPassword(), user.getfName(), user.getlName(), user.getEmail(), user.getDate_created()};
+        executeUpdate(REGISTER_USER,params);
     }
 
     public static void addNewComment(Comment comment) {
@@ -243,4 +278,6 @@ public class WhatDoDAO {
         //String removeTaskItemFinal = String.format(REMOVE_TASK_ITEM,taskItemID);
         executeUpdate(REMOVE_TASK_ITEM, params);
     }
+
+
 }

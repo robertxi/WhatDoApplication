@@ -1,0 +1,46 @@
+<div >
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3>Sign up for WhatDo!</h3>
+        </div>
+        <div class="panel-body">
+            <form name="registerForm" id="registerForm" class="form-horizontal" novalidate>
+                <div class="form-group">
+                    <label for="userName" class="control-label">Username</label>
+                    <input id="userName" name="username"type ="text" ng-model="newuser.username"class="form-control" ng-minlength="6" ng-maxlength="30"required/>
+                    <p ng-show="registerForm.username.$invalid && !registerForm.username.$pristine" class="help-block"> A username is required</p>
+                </div>
+                <div class="form-group">
+                    <label for="fName" class="control-label">First Name</label>
+                    <input id="fName" name="fname"type ="text" ng-model="newuser.fname" class="form-control" ng-maxlength="50"required/>
+                    <p ng-show="registerForm.fname.$invalid && !registerForm.fname.$pristine" class="help-block">Your first name is required</p>
+                </div>
+                <div class="form-group">
+                    <label for="lName" class="control-label">Last Name</label>
+                    <input id="lName" name="lname"type ="text" ng-model="newuser.lname" class="form-control" ng-maxlength="50"required/>
+                    <p ng-show="registerForm.lname.$invalid && !registerForm.lname.$pristine" class="help-block">Your last name is required</p>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="control-label">Email</label>
+                    <input id="email" name="email"type ="email" ng-model="newuser.email" class="form-control"  ng-maxlength="50"required/>
+                    <p ng-show="registerForm.email.$invalid && !registerForm.email.$pristine" class="help-block">Please enter a valid email</p>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input id="password" name="password"type ="password" ng-model="newuser.password" class="form-control"  ng-minlength="6" ng-maxlength="50"required/>
+                    <p ng-show="registerForm.password.$invalid && !registerForm.password.$pristine" class="help-block">Password is required</p>
+                    <p ng-show="registerForm.password.$error.minlength" class="help-block">Password must be at least 6 characters long</p>
+                </div>
+                <div class="form-group">
+                    <label for="confPassword" class="control-label">Confirm Password</label>
+                    <input id="confPassword" name="confpassword"type ="password" ng-model="newuser.confpassword" class="form-control" ng-minlength="6" ng-maxlength="50"required/>
+                    <p ng-show="registerForm.password!=registerForm.confpassword && !registerForm.confpassword.$pristine" class="help-block">Passwords do not match</p>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-primary" type="submit" form="registerForm" ng-click="register()" ng-disabled="registerForm.$invalid">Submit</button>
+            <button class="btn btn-warning" type="button" ng-click="cancelWindow()">Cancel</button>
+        </div>
+    </div>
+</div>

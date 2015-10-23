@@ -29,3 +29,13 @@ create table comments(
     FOREIGN KEY (taskitem_id) REFERENCES task_item(id),
     primary key(id)
 );
+
+create table users(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50),
+    password VARCHAR(50),
+    fName varchar(50),
+    lName VARCHAR(50),
+    email VARCHAR(50),
+    primary key(id)
+);

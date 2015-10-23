@@ -1,22 +1,66 @@
 /**
  * Created by RobertXi on 9/29/15.
  */
-var whatDoApp = angular.module('whatDoApp',['ngRoute','ui.bootstrap']);
+var whatDoApp = angular.module('whatDoApp',['ngRoute','ui.bootstrap',]);
 
 whatDoApp.config(['$routeProvider',function($routeProvider){
     $routeProvider.
-        when('/',{
+        when('/index',{
             templateUrl:'whatDoTemplate4.html',
             controller: 'toDoListCtrl'
+        }).when('/',{
+            templateUrl:'login.html',
+            controller:'loginCtrl'
         });
 }]);
+whatDoApp.controller('loginCtrl', function($scope,$http, $uibModal){
+    $scope.newuser = null;
 
+    $scope.register=function(){
+        console.log("ready to open dialog");
+        $uibModal.open({
+            templateUrl: 'register.html',
+            controller: 'ModalInstanceCtrl',
+            scope:$scope
+        });
+        console.log("dialog has been opened");
+    };
+});
 
 whatDoApp.controller('updateDropDownCtrl', function ($scope, $log) {
     $scope.status = {isopen: false};
 });
 
 whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
+
+    $scope.register=function(){
+
+        var username = $scope.newuser.username;
+        var getuname=$http.post('http://localhost:8080/getUser',username);
+        getuname.success(function(data){
+            if(data==true) {
+                alert("That username is already taken");
+            }else{
+                var date = new Date().toDateString();
+                var data = {'username': $scope.newuser.username,'password': $scope.newuser.password, 'fName': $scope.newuser.fname, 'lName': $scope.newuser.lname,
+                    'email': $scope.newuser.email, 'date_created': date};
+
+                var res=$http.post('http://localhost:8080/registerUser',data);
+                res.success(function(){
+                    $modalInstance.close();
+                });
+                res.error(function(){
+                    alert("failure message: "+JSON.stringify({data:data}));
+                    $modalInstance.close();
+                });
+            }
+        });
+        getuname.error=function(){
+            alert("failure message: "+JSON.stringify({data:data}));
+            $modalInstance.close();
+        }
+
+    };
 
     $scope.deleteTask=function(task, index){
         var res = $http.post('http://localhost:8080/deleteTask', task);
@@ -41,7 +85,7 @@ whatDoApp.controller('ModalInstanceCtrl',function($scope,$http,$modalInstance){
             $modalInstance.close();
         });
         res.error(function(data){
-            alert("failure message: "+JSON.string({data:data}));
+            alert("failure message: "+JSON.stringify({data:data}));
             $modalInstance.close();
         });
     };
@@ -184,7 +228,7 @@ whatDoApp.controller('toDoListCtrl',function($scope, $http, $uibModal){
             $scope.comment.newComment="";
         });
         res.error(function(data){
-            alert("failure message: "+JSON.string({data:data}));
+            alert("failure message: "+JSON.stringify({data:data}));
         });
     };
 
