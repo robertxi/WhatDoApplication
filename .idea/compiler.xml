@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="gs-spring-boot" />
+        <module name="WhatDoApplication" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gs-spring-boot" target="1.7" />
+      <module name="WhatDoApplication" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

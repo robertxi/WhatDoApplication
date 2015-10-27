@@ -7,9 +7,9 @@ import com.robert.whatdo.model.TaskItem;
  */
 public class TaskItemService {
 
-    public static void removeTaskItem(TaskItem item){
-        WhatDoDAO.removeTaskItemComments(item);
-        WhatDoDAO.removeTaskItem(item);
+    public static void removeTaskItem(int taskItem_id){
+        WhatDoDAO.removeTaskItemComments(taskItem_id);
+        WhatDoDAO.removeTaskItem(taskItem_id);
     }
     public static void addTaskItem(TaskItem item){
         WhatDoDAO.addTaskItem(item);

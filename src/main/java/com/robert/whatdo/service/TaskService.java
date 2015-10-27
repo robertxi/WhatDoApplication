@@ -17,20 +17,22 @@ public class TaskService {
     public static int getId(Task task){
         return task.getId();
     }
-    public static List<TaskItem> getTaskItems(Task task){
-        List<TaskItem> retList = WhatDoDAO.getTaskItems(task);
+    public static List<TaskItem> getTaskItems(int task_id){
+        List<TaskItem> retList = WhatDoDAO.getTaskItems(task_id);
         for(TaskItem item: retList){
             item.setCommentList(WhatDoDAO.getCommentList(item.getId()));
         }
         return retList;
     }
-    public static void deleteTask(Task task){
-        WhatDoDAO.deleteTask(task);
+    public static void deleteTask(int task_id){
+        WhatDoDAO.deleteTask(task_id);
     }
-    public static List<Task> getTaskList(int userId){
-        List<Task> retList = WhatDoDAO.getTaskList(userId);
-        for(Task item : retList){
-            item.setTaskListSize(item.getTaskList().size());
+    public static List<Task> getTaskList(int user_id){
+        List<Task> retList = WhatDoDAO.getTaskList(user_id);
+        if(null!=retList) {
+            for (Task item : retList) {
+                item.setTaskListSize(item.getTaskList().size());
+            }
         }
         return retList;
     }
@@ -40,7 +42,7 @@ public class TaskService {
 
     public static Task getTask(int task_id){
         Task ret = WhatDoDAO.getTaskById(task_id);
-        List<TaskItem> itemList = TaskService.getTaskItems(ret);
+        List<TaskItem> itemList = TaskService.getTaskItems(ret.getId());
         ret.setTaskList(itemList);
         ret.setTaskListSize(itemList.size());
         return ret;

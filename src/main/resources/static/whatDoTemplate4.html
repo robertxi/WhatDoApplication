@@ -1,12 +1,13 @@
 <div id="wrapper">
     <div ng-controller="toDoListCtrl">
+        <div ></div>
         <div data-ng-init="init()"></div>
         <div id="nav-bar">
             <div id="navBarContentWrapper">
                 <h1 id="titleWrapper">WHAT DO!</h1>
                 <h3>friends</h3>
                 <h3>settings</h3>
-                <h3>logout</h3>
+                <h3 ng-click="logout()">logout</h3>
             </div>
         </div>
         <div id="topSpacer"></div>

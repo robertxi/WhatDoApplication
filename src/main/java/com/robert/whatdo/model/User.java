@@ -13,6 +13,15 @@ public class User {
     private String lName;
     private String email;
     private String date_created;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public int getId() {
         return id;
@@ -21,6 +30,7 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getUsername() {
         return username;
     }

@@ -9,10 +9,14 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.json.simple.JSONObject;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.sql.DataSource;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by RobertXi on 10/5/15.
@@ -37,10 +41,11 @@ public class WhatDoDAO {
     private static final String SELECT_TASKS = "Select * FROM task_item WHERE task_id =?";
     private static final String SELECT_TASKITEM_BY_ID = "SELECT * FROM task_item WHERE id=?";
     private static final String CHECK_USERNAME="SELECT * FROM users WHERE username=?";
-
+    private static final String LOGIN="SELECT * FROM users WHERE username=? AND password=?";
+    private static final String CHECKAUTH="SELECT * FROM users WHERE token=?";
 
     //updates
-    private static final String REGISTER_USER = "INSERT INTO users (username, password, fName, lName, email, date_created) VALUES(?,?,?,?,?,?)";
+    private static final String REGISTER_USER = "INSERT INTO users (username, password, fName, lName, email, date_created, token) VALUES(?,?,?,?,?,?,?)";
     private static final String INSERT_NEW_COMMENT = "INSERT INTO comments(taskitem_id,content,date_created,user_id) VALUES (?,?,?,?)";
     private static final String INSERT_TASK_ITEM = "INSERT INTO task_item (task_id,content,date_created,date_modified,status) VALUES (?,?,?,?,?)";
     private static final String ADD_NEW_TASK = "INSERT INTO task (user_id, title, description, date_created, date_modified) VALUES (?,?,?,?,?)";
@@ -55,6 +60,53 @@ public class WhatDoDAO {
     //######################
     //QUERIES
     //######################
+    public static int ifAuth(String token){
+        queryParams=new Object[]{token};
+        User user = ifAuthImpl(CHECKAUTH, queryParams);
+        if(null==user){
+            return -1;
+        }else{
+            return user.getId();
+        }
+    }
+
+    private static User ifAuthImpl(String query, Object[] params){
+        User ret = null;
+        try {
+            DataSource dataSource = MyDataSourceFactory.INSTANCE.getDataSource();
+            QueryRunner run = new QueryRunner(dataSource);
+            ResultSetHandler<User> rH = new BeanHandler<>(User.class);
+            ret = run.query(query, rH, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return ret;
+    }
+
+    public static String loginAuth(JSONObject obj){
+        queryParams=new Object[]{(String)obj.get("username"), (String)obj.get("password")};
+        User user=loginAuthImpl(LOGIN,queryParams);
+        if(null==user){
+            return null;
+        }else{
+            return user.getToken();
+        }
+    }
+
+    private static User loginAuthImpl(String query, Object[] params){
+        User ret = null;
+        try {
+            DataSource dataSource = MyDataSourceFactory.INSTANCE.getDataSource();
+            QueryRunner run = new QueryRunner(dataSource);
+            ResultSetHandler<User> rH = new BeanHandler<>(User.class);
+            ret = run.query(query, rH, params);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+        return ret;
+    }
     public static boolean checkUsername(String username){
         queryParams=new Object[]{username};
         User user = checkUsernameImpl(CHECK_USERNAME,queryParams);
@@ -148,8 +200,8 @@ public class WhatDoDAO {
         return ret;
     }
 
-    public static List<TaskItem> getTaskItems(Task task) {
-        queryParams = new Object[]{TaskService.getId(task)};
+    public static List<TaskItem> getTaskItems(int task_id) {
+        queryParams = new Object[]{task_id};
         //String selectTasksFinal = String.format(SELECT_TASKS, TaskService.getId(task));
         List<TaskItem> retList = getTaskItemSet(SELECT_TASKS, queryParams);
         return retList;
@@ -176,12 +228,14 @@ public class WhatDoDAO {
         return list;
     }
 
-    public static List<Task> getTaskList(int id) {
-        queryParams = new Object[]{id};
-        //String getTaskListFinal = String.format(GET_TASK_LIST,id);
+    public static List<Task> getTaskList(int user_id) {
+        queryParams = new Object[]{user_id};
+
         List<Task> retList = getTaskListImpl(GET_TASK_LIST, queryParams);
-        for (Task task : retList) {
-            task.setTaskList(TaskService.getTaskItems(task));
+        if(null!=retList) {
+            for (Task task : retList) {
+                task.setTaskList(TaskService.getTaskItems(task.getId()));
+            }
         }
         return retList;
     }
@@ -219,7 +273,11 @@ public class WhatDoDAO {
 
 
     public static void registerUser(User user){
-        Object[] params = new Object[]{user.getUsername(), user.getPassword(), user.getfName(), user.getlName(), user.getEmail(), user.getDate_created()};
+        Random r = new SecureRandom();
+        byte[] salt = new byte[32];
+        r.nextBytes(salt);
+        String token = DigestUtils.md5Hex(user.getUsername()+user.getPassword()+salt);
+        Object[] params = new Object[]{user.getUsername(), user.getPassword(), user.getfName(), user.getlName(), user.getEmail(), user.getDate_created(), token};
         executeUpdate(REGISTER_USER,params);
     }
 
@@ -249,13 +307,12 @@ public class WhatDoDAO {
         executeUpdate(INSERT_TASK_ITEM, params);
     }
 
-    public static void deleteTask(Task task) {
-        int id = TaskService.getId(task);
-        Object[] paramsTask = new Object[]{id};
-        Object[] paramsItems = new Object[]{id};
+    public static void deleteTask(int task_id) {
+        Object[] paramsTask = new Object[]{task_id};
+        Object[] paramsItems = new Object[]{task_id};
 //        String deleteTaskFinal = String.format(DELETE_TASK, id);
 //        String deleteTaskItemsFinal = String.format(DELETE_TASK_ITEMS,id);
-        List<TaskItem> itemList = TaskService.getTaskItems(task);
+        List<TaskItem> itemList = TaskService.getTaskItems(task_id);
         for (TaskItem item : itemList) {
             Object[] params = new Object[]{item.getId()};
             //String removeTaskItemCommentFinal = String.format(REMOVE_TASK_ITEM_COMMENT,item.getId());
@@ -266,15 +323,14 @@ public class WhatDoDAO {
 
     }
 
-    public static void removeTaskItemComments(TaskItem item) {
-        Object[] params = new Object[]{item.getId()};
+    public static void removeTaskItemComments(int taskItem_id) {
+        Object[] params = new Object[]{taskItem_id};
         //String removeTaskItemCommentFinal=String.format(REMOVE_TASK_ITEM_COMMENT, item.getId());
         executeUpdate(REMOVE_TASK_ITEM_COMMENT, params);
     }
 
-    public static void removeTaskItem(TaskItem item) {
-        int taskItemID = item.getId();
-        Object[] params = new Object[]{taskItemID};
+    public static void removeTaskItem(int taskItem_id) {
+        Object[] params = new Object[]{taskItem_id};
         //String removeTaskItemFinal = String.format(REMOVE_TASK_ITEM,taskItemID);
         executeUpdate(REMOVE_TASK_ITEM, params);
     }
